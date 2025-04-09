@@ -5,13 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Board de Tarefas DNC</title>
     <link rel="stylesheet" href="style.css">
+
+    <script src="./index.js"></script>
 </head>
 <body>
     <main>
         <header>
             <h1>Board de tarefas</h1>
         </header>
-        
+        <section>
+            <form action="" id = "taskInserter">
+                <input type="text"
+                    class = "inputArea"
+                    id = "taskName"
+                    name = "title"
+                    placeholder = "Nome da tarefa"
+                    aria-label = "Nome da tarefa">
+                
+                <input type="text"
+                    class = "inputArea"
+                    id = "taskLabel"
+                    name = "label"
+                    placeholder = "Etiqueta"
+                    aria-label = "Etiqueta">
+                
+                <button aria-label="Cadastrar tarefa" id="saveButton" type="submit" class="addTaskBtn">+</button>
+            </form>
+        </section>
+        <section>
+            <ul id="tasksList">
+                <li>
+                    <h2>Implementar algo</h2>
+                    <div class = "listItem">
+                        <p class="coe">frontend</p>
+                        <p class="date">Criado em alguma data</p>
+                    </div>
+                    <button class="concludeBtn">concluir</button>
+                </li>
+            </ul>
+        </section>
+
+        <footer>
+            <button onclick="removeDoneTasks()" class="removeBtn">
+                Remover itens marcados
+            </button>
+        </footer>
     </main>
 </body>
 </html>
