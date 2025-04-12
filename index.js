@@ -1,138 +1,138 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const taskForm = document.getElementById("taskInserter");
-  const taskNameInput = document.getElementById("taskName");
-  const taskLabelInput = document.getElementById("taskLabel");
-  const tasksList = document.getElementById("tasksList");
-  const footer = document.querySelector("footer");
+document.addEventListener("DOMContentLoaded", () => {    
+    const taskForm = document.getElementById("taskInserter");
+    const taskNameInput = document.getElementById("taskName");
+    const taskLabelInput = document.getElementById("taskLabel");
+    const taskList = document.getElementById("tasksList");
+    const footer = document.querySelector("footer");
 
-  // Adiciona contador no footer
-  const completedCountEl = document.createElement("p");
-  completedCountEl.style.fontSize = "1.4rem";
-  completedCountEl.style.color = "#334155";
-  completedCountEl.style.margin = "1rem 2rem 0 0";
-  footer.appendChild(completedCountEl);
+    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  // Gera um ID único para cada tarefa
-  const generateId = () => Date.now().toString() + Math.random().toString(36).substring(2, 8);
-
-  function loadTasks() {
-    const saved = localStorage.getItem("tasks");
-    return saved ? JSON.parse(saved) : [];
-  }
-
-  function saveTasks(tasks) {
+    const saveTasksToStorage = () => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
+    };
 
-  function updateCompletedCount() {
-    const tasks = loadTasks();
-    const completedCount = tasks.filter(t => t.completed).length;
-    completedCountEl.textContent = `Tarefas concluídas: ${completedCount}`;
-  }
+    const updateCompletedCount = () => {
+    const completedCount = tasks.filter(task => task.completed).length;
 
-  function renderTasks() {
-    const tasks = loadTasks();
-    tasksList.innerHTML = "";
+    let counterEl = document.getElementById("completedCounter");
+    if (!counterEl) {
+        counterEl = document.createElement("p");
+        counterEl.id = "completedCounter";
+        footer.appendChild(counterEl);
+    }
 
-    tasks.forEach(task => {
-      const li = document.createElement("li");
+    counterEl.textContent = `${completedCount} tarefa${completedCount !== 1 ? "s" : ""} concluída${completedCount !== 1 ? "s" : ""}`;
+    };
 
-      const taskContent = document.createElement("div");
-      taskContent.className = "taskContent";
+    const removeTask = (id) => {
+    tasks = tasks.filter(task => task.id !== id);
+    saveTasksToStorage();
+    renderTasks();
+    };
 
-      const taskInfo = document.createElement("div");
-      taskInfo.className = "taskInfo";
+    const createTaskElement = (task) => {
+    const li = document.createElement("li");
+    const taskContent = document.createElement("div");
+    taskContent.className = "taskContent";
 
-      const title = document.createElement("h2");
-      title.textContent = task.title;
+    const taskInfo = document.createElement("div");
+    taskInfo.className = "taskInfo";
 
-      const tagDate = document.createElement("div");
-      tagDate.className = "tagDate";
+    const h2 = document.createElement("h2");
+    h2.textContent = task.title;
 
-      const tag = document.createElement("p");
-      tag.className = "tag";
-      tag.textContent = task.label;
+    const tagDate = document.createElement("div");
+    tagDate.className = "tagDate";
 
-      const date = document.createElement("p");
-      date.className = "date";
-      date.textContent = `Criado em: ${task.date}`;
+    const tag = document.createElement("p");
+    tag.className = "tag";
+    tag.textContent = task.label;
 
-      tagDate.append(tag, date);
-      taskInfo.append(title, tagDate);
-      taskContent.appendChild(taskInfo);
+    const date = document.createElement("p");
+    date.className = "date";
+    date.textContent = `Criado em: ${task.date}`;
 
-      const button = document.createElement("button");
-      button.className = "concludeBtn";
+    tagDate.appendChild(tag);
+    tagDate.appendChild(date);
 
-      if (task.completed) {
-        // Estilo visual para tarefa concluída
-        title.style.textDecoration = "line-through";
-        title.style.color = "#94a3b8";
+    taskInfo.appendChild(h2);
+    taskInfo.appendChild(tagDate);
+
+    const button = document.createElement("button");
+
+    if (task.completed) {
+        li.style.opacity = 0.5;
+        h2.style.textDecoration = "line-through";
+        h2.style.color = "#94a3b8";
         tag.style.color = "#94a3b8";
-        tag.style.borderColor = "#94a3b8";
         date.style.color = "#94a3b8";
 
-        // Botão verde ✓
-        button.textContent = "✓";
-        button.style.backgroundColor = "#10B981";
+        button.innerHTML = "✓";
+        button.className = "concludeBtn";
+       button.style.backgroundColor = "#10B981";
         button.style.borderRadius = "50%";
-        button.style.width = "3.2rem";
-        button.style.height = "3.2rem";
+        button.style.width = "4.4rem";
+        button.style.height = "4.4rem";
         button.style.fontSize = "1.6rem";
         button.style.fontWeight = "bold";
         button.style.color = "#fff";
         button.style.border = "none";
         button.style.cursor = "pointer";
 
-        button.addEventListener("click", () => {
-          // Remove do localStorage com base no ID
-          const currentTasks = loadTasks();
-          const updatedTasks = currentTasks.filter(t => t.id !== task.id);
-          saveTasks(updatedTasks);
-          renderTasks();
-        });
-      } else {
+        button.onclick = () => removeTask(task.id);
+    } else {
         button.textContent = "Concluir";
-        button.addEventListener("click", () => {
-          const currentTasks = loadTasks();
-          const updatedTasks = currentTasks.map(t =>
-            t.id === task.id ? { ...t, completed: true } : t
-          );
-          saveTasks(updatedTasks);
-          renderTasks();
-        });
-      }
+        button.className = "concludeBtn";
+        button.onclick = () => {
+        task.completed = true;
+        saveTasksToStorage();
+        renderTasks();
+        };
+    }
 
-      taskContent.appendChild(button);
-      li.appendChild(taskContent);
-      tasksList.appendChild(li);
+    taskContent.appendChild(taskInfo);
+    taskContent.appendChild(button);
+    li.appendChild(taskContent);
+
+    return li;
+    };
+
+    const renderTasks = () => {
+    taskList.innerHTML = "";
+    tasks.forEach(task => {
+        const taskEl = createTaskElement(task);
+        taskList.appendChild(taskEl);
     });
 
     updateCompletedCount();
-  }
+    };
 
-  taskForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const title = taskNameInput.value.trim();
-    const label = taskLabelInput.value.trim();
+    taskForm.onsubmit = (event) => {
+    event.preventDefault();
+
+    const titleInput = document.getElementById("taskName");
+    const labelInput = document.getElementById("taskLabel");
+    const title = titleInput.value.trim();
+    const label = labelInput.value.trim();
+
     if (!title || !label) return;
 
     const newTask = {
-      id: generateId(),
-      title,
-      label,
-      date: new Date().toLocaleDateString("pt-BR"),
-      completed: false
+        id: Date.now(),
+        title,
+        label,
+        date: new Date().toLocaleDateString("pt-BR"),
+        completed: false,
     };
 
-    const tasks = loadTasks();
     tasks.push(newTask);
-    saveTasks(tasks);
+    saveTasksToStorage();
     renderTasks();
 
-    taskNameInput.value = "";
-    taskLabelInput.value = "";
-  });
+    titleInput.value = "";
+    labelInput.value = "";
+    };
 
-  renderTasks();
+    // Inicializa ao carregar
+    renderTasks();
 });
