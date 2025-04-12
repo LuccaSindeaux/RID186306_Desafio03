@@ -93,6 +93,27 @@ li {
     margin-bottom: 1.2rem;
 }
 
+li.completed h2,
+li.completed .tag,
+li.completed .date {
+    color: #94A3B8; /* cinza claro */
+    text-decoration: line-through;
+}
+
+li.completed .concludeBtn {
+    background-color: #22c55e;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 0;
+}
+
+li.completed .concludeBtn::before {
+    content: "✓";
+}
+
 .taskContent {
     display: flex;
     flex-direction: row;
