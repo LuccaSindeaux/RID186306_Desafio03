@@ -67,9 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
         tag.style.color = "#94a3b8";
         date.style.color = "#94a3b8";
 
-        button.innerHTML = "✓";
+        button.innerHTML = "✔";
         button.className = "concludeBtn";
-       button.style.backgroundColor = "#10B981";
+        button.style.backgroundColor = "#10B981";
         button.style.borderRadius = "50%";
         button.style.width = "4.4rem";
         button.style.height = "4.4rem";

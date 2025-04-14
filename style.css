@@ -188,3 +188,92 @@ footer {
     color: #334155;
     text-align: right;
 }
+
+
+@media (max-width: 768px) {
+    main {
+      width: 90vw;
+      padding: 2rem 1rem;
+    }
+  
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  
+    h1 {
+      font-size: 2.8rem;
+      margin: 1rem 0;
+    }
+  
+    form {
+      flex-direction: column;
+      width: 100%;
+      margin: 1rem 0;
+      gap: 1rem;
+    }
+  
+    .inputArea {
+      width: 80vw;
+      font-size: 1.4rem;
+    }
+  
+    .addTaskBtn {
+      width: 85vw;
+      height: 4.4rem;
+      font-size: 1.6rem;
+    }
+  
+    ul {
+      width: 80vw;
+    }
+  
+    li {
+      padding: 1.4rem;
+    }
+  
+    .taskContent {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+  
+    .taskInfo h2 {
+      font-size: 1.4rem;
+    }
+
+    .taskInfo{
+        width:100%;
+    }
+  
+    .tagDate {
+      flex-direction: column;
+      align-items: flex-start !important; /*não consegui poor nada alinhar a esquerda, este "!important" foi recomenado */
+      gap: 0.2rem;
+      align-self: left;
+    }
+    .tag{
+        margin-bottom: 0.1rem;
+    }
+    .date{
+        margin-top:0.1rem
+    }
+  
+    .concludeBtn {
+      width: 12rem;
+      font-size: 1.6rem;
+      height: 4rem;
+      align-self: center;
+    }
+  
+    li.completed .concludeBtn {
+      width: 4rem;
+      height: 4rem;
+    }
+  
+    footer {
+      text-align: right;
+      margin-top: 2rem;
+    }
+  }
