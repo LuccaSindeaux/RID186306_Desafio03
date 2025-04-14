@@ -13,8 +13,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    /* background-color: #F5F9FF; */
-    background-color: #8ca6cc;
+    background-color: #f5f9ff;
+    /* background-color: #8ca6cc; contraste maior*/
 }
 header{
     display: flex;
